@@ -1,10 +1,14 @@
 package com.example.review.api;
 
 import com.example.review.api.request.CreateEditRestaurantRequest;
+import com.example.review.model.RestaurantEntity;
+import com.example.review.service.RestaurantService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
+@RequiredArgsConstructor
 @RestController
 public class RestaurantApi {
+    private final RestaurantService restaurantService;
     @GetMapping("/restaurants")
     public String getRs() {
         return "Rs";
@@ -16,8 +20,8 @@ public class RestaurantApi {
     }
 
     @PostMapping("/restaurant")
-    public String postR(@RequestBody CreateEditRestaurantRequest request) {
-        return "create"+request.getName()+request.getAdress()+request.getMenus().get(0).getName()+request.getMenus().get(0).getPrice();
+    public RestaurantEntity postR(@RequestBody CreateEditRestaurantRequest request) {
+        return restaurantService.createRes(request);
     }
 
     @PutMapping("/restaurant/{restaurantId}")
@@ -28,6 +32,4 @@ public class RestaurantApi {
     public String deleteR(@PathVariable Long restaurantId){
         return "delete" + restaurantId;
     }
-
-
 }
