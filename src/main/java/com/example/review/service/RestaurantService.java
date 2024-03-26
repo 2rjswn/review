@@ -40,9 +40,16 @@ public class RestaurantService {
 
         return restaurant;
     }
-    public void editRes(){
+    @Transactional
+    public void editRes(CreateEditRestaurantRequest request, Long restaurantId){
+        RestaurantEntity restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new RuntimeException("없는 레스토랑 입니다"));
+        restaurant.changenameadress(request.getName(), request.getAdress());
+        restaurantRepository.save(restaurant);
+
+
 
     }
+    @Transactional
     public void deleteRes(){
 
     }

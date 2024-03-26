@@ -22,4 +22,10 @@ public class RestaurantEntity {
     private ZonedDateTime createAt;
     @Column
     private ZonedDateTime updateAt;
+
+    public void changenameadress(String name, String adress) {
+        this.name = name;
+        this.adress = adress;
+        this.updateAt = ZonedDateTime.now();
+    }
 }

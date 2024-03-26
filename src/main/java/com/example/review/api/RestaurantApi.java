@@ -20,8 +20,8 @@ public class RestaurantApi {
     }
 
     @PostMapping("/restaurant")
-    public RestaurantEntity postR(@RequestBody CreateEditRestaurantRequest request) {
-        return restaurantService.createRes(request);
+    public void postR(@RequestBody CreateEditRestaurantRequest request) {
+        restaurantService.createRes(request);
     }
 
     @PutMapping("/restaurant/{restaurantId}")
