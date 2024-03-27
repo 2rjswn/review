@@ -24,7 +24,7 @@ public class RestaurantDetailView {
     public static class Menu{
         private final Long id;
         private final String name;
-        private final String price;
+        private final Integer price;
         private final ZonedDateTime createdAt;
         private final ZonedDateTime updatedAt;
 
