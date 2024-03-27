@@ -27,4 +27,10 @@ public class MenuEntity {
     private ZonedDateTime createAt;
     @Column
     private ZonedDateTime updateAt;
+
+    public void changenameprice(String name, Integer price){
+        this.name = name;
+        this.price = price;
+        this.updateAt = ZonedDateTime.now();
+    }
 }

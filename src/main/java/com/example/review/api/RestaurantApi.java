@@ -25,11 +25,11 @@ public class RestaurantApi {
     }
 
     @PutMapping("/restaurant/{restaurantId}")
-    public String putR(@PathVariable Long restaurantId,@RequestBody CreateEditRestaurantRequest request){
-        return "put"+restaurantId + request.getName()+request.getAdress();
+    public void putR(@PathVariable Long restaurantId,@RequestBody CreateEditRestaurantRequest request){
+        restaurantService.editRes(request, restaurantId);
     }
     @DeleteMapping("/restaurant/{restaurantId}")
-    public String deleteR(@PathVariable Long restaurantId){
-        return "delete" + restaurantId;
+    public void deleteR(@PathVariable Long restaurantId){
+        restaurantService.deleteRes(restaurantId);
     }
 }

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.List;
+
 
 @RequiredArgsConstructor
 @Service
@@ -33,6 +35,8 @@ public class RestaurantService {
                     .restaurantId(restaurant.getId())
                     .name(menu.getName())
                     .price(menu.getPrice())
+                    .createAt(ZonedDateTime.now())
+                    .updateAt(ZonedDateTime.now())
                     .build();
 
             menuRepository.save(menuEntity);
@@ -46,11 +50,29 @@ public class RestaurantService {
         restaurant.changenameadress(request.getName(), request.getAdress());
         restaurantRepository.save(restaurant);
 
+        List<MenuEntity> menus = menuRepository.findAllByRestaurantId(restaurantId);
+        menuRepository.deleteAll(menus);
 
+        request.getMenus().forEach((menu)-> {
+            MenuEntity menuEntity = MenuEntity.builder()
+                    .restaurantId(restaurant.getId())
+                    .name(menu.getName())
+                    .price(menu.getPrice())
+                    .createAt(ZonedDateTime.now())
+                    .updateAt(ZonedDateTime.now())
+                    .build();
+
+            menuRepository.save(menuEntity);
+        });
 
     }
     @Transactional
-    public void deleteRes(){
+    public void deleteRes(Long restaurantId){
+    RestaurantEntity restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new  RuntimeException("없는 레스토랑 입니다"));
+    restaurantRepository.delete(restaurant);
+    List<MenuEntity> menus = menuRepository.findAllByRestaurantId(restaurantId);
+    menuRepository.deleteAll(menus);
+
 
     }
 }
