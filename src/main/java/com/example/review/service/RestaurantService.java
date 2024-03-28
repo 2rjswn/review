@@ -100,14 +100,13 @@ public class RestaurantService {
                 .createdAt(restaurant.getCreateAt())
                 .updatedAt(restaurant.getUpdateAt())
                 .menus(
-                        menus.stream().map((menu) -> RestaurantDetailView.Menu.builder()
+                        menus.stream().map(menu -> RestaurantDetailView.Menu.builder()
                                         .id(menu.getId())
                                         .name(menu.getName())
                                         .price(menu.getPrice())
                                         .updatedAt(menu.getUpdateAt())
                                         .createdAt(menu.getCreateAt())
                                         .build()
-
                 ).toList()
         )
         .build();
