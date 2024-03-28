@@ -5,11 +5,14 @@ import com.example.review.api.response.RestaurantDetailView;
 import com.example.review.api.response.RestaurantView;
 import com.example.review.model.MenuEntity;
 import com.example.review.model.RestaurantEntity;
+import com.example.review.model.ReviewEntity;
 import com.example.review.repository.MenuRepository;
 import com.example.review.repository.RestaurantRepository;
+import com.example.review.repository.ReviewRepository;
 import com.example.review.service.DTO.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,7 @@ import java.util.List;
 @Service
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
+    private final ReviewRepository reviewRepository;
     private final MenuRepository menuRepository;
 
     @Transactional
@@ -113,6 +117,20 @@ public class RestaurantService {
         )
         .build();
     }
+    public ReviewDto getRestaurantReview(Long restaurantId, Pageable page){
+        Double avgScore = reviewRepository.getAvgScoreByRestaurantId(restaurantId);
+        Slice<ReviewEntity> reviews = reviewRepository.findSliceByRestaurantId(restaurantId,page);
 
+        return ReviewDto.builder()
+                .avgScore(avgScore)
+                .reviews(reviews.getContent())
+                .page(
+                        ReviewDto.ReviewDtoPage.builder()
+                                .limit(page.getPageSize())
+                                .offset(page.getPageNumber() * page.getPageSize())
+                                .build()
+                )
+                .build();
+    }
 
 }
